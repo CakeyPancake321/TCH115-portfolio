@@ -25,10 +25,10 @@ test('renderCard includes name, description, topics (excluding "portfolio"), and
 
   assert.match(html, /network-scanner/);
   assert.match(html, /A simple &lt;script&gt; port scanner/);
-  assert.match(html, /<span class="proj-tag">python<\/span>/);
-  assert.match(html, /<span class="proj-tag">networking<\/span>/);
-  assert.doesNotMatch(html, /<span class="proj-tag">portfolio<\/span>/);
-  assert.match(html, /<a href="https:\/\/github\.com\/CakeyPancake321\/network-scanner" class="proj-link">&rarr; view project<\/a>/);
+  assert.match(html, />python<\/span>/);
+  assert.match(html, />networking<\/span>/);
+  assert.doesNotMatch(html, />portfolio<\/span>/);
+  assert.match(html, /<a href="https:\/\/github\.com\/CakeyPancake321\/network-scanner" class="project-link">&rarr; view project<\/a>/);
   assert.doesNotMatch(html, /github\.com\/CakeyPancake321\/network-scanner<\/a>\s*<\/a>/);
 });
 
@@ -58,13 +58,13 @@ test('renderCard escapes double quotes in html_url so they cannot break out of t
 
 test('renderEmptyState renders the coming-soon placeholder', () => {
   const html = renderEmptyState();
-  assert.match(html, /proj-placeholder/);
+  assert.match(html, /dashed-card/);
   assert.match(html, /more projects coming soon/);
 });
 
 test('buildSection renders the empty state when given no repos', () => {
   const html = buildSection([]);
-  assert.match(html, /proj-placeholder/);
+  assert.match(html, /dashed-card/);
 });
 
 test('buildSection renders one card per repo when given repos', () => {
@@ -75,7 +75,7 @@ test('buildSection renders one card per repo when given repos', () => {
   const html = buildSection(repos);
   assert.match(html, /repo-one/);
   assert.match(html, /repo-two/);
-  assert.equal((html.match(/project-card/g) || []).length, 2);
+  assert.equal((html.match(/class="card" style="border-radius:12px/g) || []).length, 2);
 });
 
 test('buildSection appends a trailing "coming soon" placeholder after real repo cards', () => {
@@ -83,10 +83,10 @@ test('buildSection appends a trailing "coming soon" placeholder after real repo 
     { name: 'repo-one', description: 'first', topics: ['portfolio'], html_url: 'https://github.com/x/repo-one' },
   ];
   const html = buildSection(repos);
-  assert.match(html, /proj-placeholder/);
+  assert.match(html, /dashed-card/);
   assert.match(html, /more projects coming soon/);
 
-  const placeholderIndex = html.indexOf('proj-placeholder');
-  const cardIndex = html.indexOf('project-card');
+  const placeholderIndex = html.indexOf('dashed-card');
+  const cardIndex = html.indexOf('class="card"');
   assert.ok(cardIndex < placeholderIndex, 'placeholder should come after the project card');
 });
