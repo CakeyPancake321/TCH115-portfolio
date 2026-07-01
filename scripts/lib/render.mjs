@@ -25,7 +25,7 @@ ${tags}
           <div class="proj-title">${escapeHtml(repo.name)}</div>
           <p class="proj-desc">${description}</p>
           <div class="proj-links">
-            <a href="${repo.html_url}" class="proj-link">&rarr; view project</a>
+            <a href="${escapeHtml(repo.html_url)}" class="proj-link">&rarr; view project</a>
           </div>
         </div>`;
 }

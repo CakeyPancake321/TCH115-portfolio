@@ -43,6 +43,19 @@ test('renderCard falls back to a default description when repo has none', () => 
   assert.match(html, /No description provided\./);
 });
 
+test('renderCard escapes double quotes in html_url so they cannot break out of the href attribute', () => {
+  const repo = {
+    name: 'quoted-url-repo',
+    description: 'A repo with a crafted URL',
+    topics: ['portfolio'],
+    html_url: 'https://github.com/x/repo?query="quoted"',
+  };
+  const html = renderCard(repo);
+
+  assert.match(html, /href="https:\/\/github\.com\/x\/repo\?query=&quot;quoted&quot;"/);
+  assert.doesNotMatch(html, /href="https:\/\/github\.com\/x\/repo\?query="quoted""/);
+});
+
 test('renderEmptyState renders the coming-soon placeholder', () => {
   const html = renderEmptyState();
   assert.match(html, /proj-placeholder/);
