@@ -77,3 +77,16 @@ test('buildSection renders one card per repo when given repos', () => {
   assert.match(html, /repo-two/);
   assert.equal((html.match(/project-card/g) || []).length, 2);
 });
+
+test('buildSection appends a trailing "coming soon" placeholder after real repo cards', () => {
+  const repos = [
+    { name: 'repo-one', description: 'first', topics: ['portfolio'], html_url: 'https://github.com/x/repo-one' },
+  ];
+  const html = buildSection(repos);
+  assert.match(html, /proj-placeholder/);
+  assert.match(html, /more projects coming soon/);
+
+  const placeholderIndex = html.indexOf('proj-placeholder');
+  const cardIndex = html.indexOf('project-card');
+  assert.ok(cardIndex < placeholderIndex, 'placeholder should come after the project card');
+});

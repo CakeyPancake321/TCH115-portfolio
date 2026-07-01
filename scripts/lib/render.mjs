@@ -41,5 +41,5 @@ export function buildSection(repos) {
   if (!repos || repos.length === 0) {
     return renderEmptyState();
   }
-  return repos.map(renderCard).join('\n\n');
+  return [...repos.map(renderCard), renderEmptyState()].join('\n\n');
 }
