@@ -29,7 +29,8 @@ username's) public repositories, filtered to those tagged with the topic
 - `name`
 - `description`
 - `topics` (rendered as tag pills, excluding the `portfolio` topic itself)
-- `html_url` (repo link)
+- `html_url` (repo link) — rendered as a labeled link reading "→ view project"
+  (matching the existing card style), never the bare URL text
 
 No README parsing, no language/star badges (kept out of scope per user
 choice — can be added later without redesigning the pipeline).
@@ -77,8 +78,10 @@ current or future hosting:
   loudly (visible in the Actions tab) and does not commit — last known-good
   `index.html` stays live.
 - If marker comments are missing from `index.html` (e.g. accidentally
-  deleted during a redesign), the script exits with an error rather than
-  guessing where to inject content.
+  deleted during a redesign), the script exits with an explicit error
+  stating that `PROJECTS:START`/`PROJECTS:END` markers were not found,
+  rather than guessing where to inject content — so troubleshooting points
+  straight at the cause instead of a generic failure.
 
 ## Out of scope (for this iteration)
 
